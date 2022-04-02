@@ -4,6 +4,9 @@
 #define WHITE sf::Color::White
 #define BLACK sf::Color::Black
 
+#define EMPTY false;
+#define CELL true;
+
 int main()
 {
     const int CELL_SIZE = 20;
@@ -65,11 +68,11 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            switch (event.type)
-            {
+            switch (event.type) {
                 case sf::Event::Closed: 
                     window.close();
                     break;
+                
                 case sf::Event::MouseButtonPressed: {
                         int x = event.mouseButton.x;
                         int y = event.mouseButton.y;
@@ -90,9 +93,23 @@ int main()
                         }
                     }
                     break;
-                case sf::Event::KeyPressed:
-                    if (event.key.code == sf::Keyboard::P) {
-                        isPlaying = !isPlaying;
+
+                case sf::Event::KeyPressed: {
+                        switch (event.key.code) {
+                            case sf::Keyboard::P: isPlaying = !isPlaying;
+                            case sf::Keyboard::C: {
+                                    for (int n = 0; n < GRID_N; n++) GRID[n] = EMPTY;
+                                }
+                                isPlaying = false;
+                                break;
+                            case sf::Keyboard::R: {
+                                for (int n = 0; n < GRID_N; n++) {
+                                    GRID[n] = rand() % 2;
+                                }
+                                isPlaying = false;
+                                break;
+                            }
+                        }
                     }
                     break;
             }
